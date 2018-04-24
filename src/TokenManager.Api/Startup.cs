@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +28,10 @@ namespace TokenManager.Api
             services.AddSingleton<IAccountService,AccountService>();
             services.AddSingleton<IJwtHandler,JwtHandler>();
             services.AddSingleton<IPasswordHasher<User>,PasswordHasher<User>>();
+            services.AddTransient<TokenManagerMiddleware>();
+            services.AddTransient<ITokenManager, Services.TokenManager>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddDistributedRedisCache(r => { r.Configuration = Configuration["redis:connectionString"]; });
             var jwtSection = Configuration.GetSection("jwt");
             var jwtOptions = new JwtOptions();
             jwtSection.Bind(jwtOptions);
@@ -53,6 +58,8 @@ namespace TokenManager.Api
                 app.UseDeveloperExceptionPage();
             }
             app.UseMiddleware<ErrorHandlerMiddleware>();
+            app.UseAuthentication();
+            app.UseMiddleware<TokenManagerMiddleware>();
             app.UseMvc();
         }
     }

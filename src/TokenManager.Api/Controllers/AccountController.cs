@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,13 @@ namespace TokenManager.Api.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
+        private readonly ITokenManager _tokenManager;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService,
+                ITokenManager tokenManager)
         {
             _accountService = accountService;
+            _tokenManager = tokenManager;
         }
 
         [HttpGet("account")]
@@ -43,6 +47,14 @@ namespace TokenManager.Api.Controllers
         public IActionResult RevokeRefreshToken(string token)
         {
             _accountService.RevokeRefreshToken(token);
+
+            return NoContent();
+        }
+        
+        [HttpPost("tokens/cancel")]
+        public async Task<IActionResult> CancelAccessToken()
+        {
+            await _tokenManager.DeactivateCurrentAsync();
 
             return NoContent();
         }

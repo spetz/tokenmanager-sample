@@ -1,8 +1,7 @@
 {
 	"info": {
-		"name": "TokenManager",
 		"_postman_id": "b3b20ded-083d-d5f9-e4b4-adc58fa66373",
-		"description": "",
+		"name": "TokenManager",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -30,8 +29,7 @@
 					"path": [
 						"sign-up"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
@@ -59,8 +57,7 @@
 					"path": [
 						"sign-in"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
@@ -75,7 +72,7 @@
 					},
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMSIsImlzcyI6Im15LWlkZW50aXR5IiwiaWF0IjoxNTEyNjU2Mjg0LCJleHAiOjE1MTI2NTY1ODQsInVuaXF1ZV9uYW1lIjoidXNlcjEifQ.O7JOWnlUgaebOfoamgCthVq9yuFHb1SOuGzjVKpb7AQ"
+						"value": "Bearer your_access_token"
 					}
 				],
 				"body": {
@@ -92,8 +89,7 @@
 					"path": [
 						"account"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
@@ -112,7 +108,7 @@
 					"raw": "{\"username\": \"user1\", \"password\": \"secret\"}"
 				},
 				"url": {
-					"raw": "http://localhost:5000/tokens/AQAAAAEAACcQAAAAEN87K8yxl0tUr84VZqT6iWKQz4DCsrNlwxAza4hAiTBeFlvTjGAqWauFeUY3eqAQ/refresh",
+					"raw": "http://localhost:5000/tokens/your_refresh_token/refresh",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -120,16 +116,15 @@
 					"port": "5000",
 					"path": [
 						"tokens",
-						"AQAAAAEAACcQAAAAEN87K8yxl0tUr84VZqT6iWKQz4DCsrNlwxAza4hAiTBeFlvTjGAqWauFeUY3eqAQ",
+						"your_refresh_token",
 						"refresh"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "Revoke access token copy",
+			"name": "Cancel access token",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -139,15 +134,15 @@
 					},
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMSIsImlzcyI6Im15LWlkZW50aXR5IiwiaWF0IjoxNTEyNjU1ODY2LCJleHAiOjE1MTI2NTYxNjYsInVuaXF1ZV9uYW1lIjoidXNlcjEifQ.kzLTTwKxJjfc6PxXH2NaEW0dspnrDsvCky8gbvy_zDc"
+						"value": "Bearer your_access_token"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"username\": \"user1\", \"password\": \"secret\"}"
+					"raw": "{}"
 				},
 				"url": {
-					"raw": "http://localhost:5000/tokens/AQAAAAEAACcQAAAAEN87K8yxl0tUr84VZqT6iWKQz4DCsrNlwxAza4hAiTBeFlvTjGAqWauFeUY3eqAQ/revoke",
+					"raw": "http://localhost:5000/tokens/cancel",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -155,11 +150,9 @@
 					"port": "5000",
 					"path": [
 						"tokens",
-						"AQAAAAEAACcQAAAAEN87K8yxl0tUr84VZqT6iWKQz4DCsrNlwxAza4hAiTBeFlvTjGAqWauFeUY3eqAQ",
-						"revoke"
+						"cancel"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		}
