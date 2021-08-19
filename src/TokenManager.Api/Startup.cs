@@ -1,12 +1,12 @@
-﻿using System.Text;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using TokenManager.Api.Models;
 using TokenManager.Api.Services;
 
@@ -49,18 +49,24 @@ namespace TokenManager.Api
             services.Configure<JwtOptions>(jwtSection);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
-            ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            loggerFactory.AddDebug().AddConsole();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseHttpsRedirection();
+            app.UseRouting();
             app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseAuthentication();
+            app.UseAuthorization();
             app.UseMiddleware<TokenManagerMiddleware>();
-            app.UseMvc();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
